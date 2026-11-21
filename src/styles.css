@@ -4,7 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 /*
  * Design system definition.
  *
@@ -178,7 +177,6 @@
 @utility rise-in {
   animation: riseIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-
 
 /*
  * Harborlux "Claim Your Summit" opening scene.
@@ -360,7 +358,6 @@
 }
 
 /* Start states while the intro clock has not started. */
-.hx-hero[data-intro="true"] .hx-nav,
 .hx-hero[data-intro="true"] .hx-letter,
 .hx-hero[data-intro="true"] .hx-kicker {
   opacity: 0;
@@ -379,175 +376,8 @@
   opacity: 1;
 }
 
-/* Nav */
-.hx-nav {
-  position: absolute;
-  z-index: 8;
-  left: 0;
-  right: 0;
-  top: calc(52 * var(--u));
-  height: calc(48 * var(--u));
-  padding: 0 calc(125 * var(--u));
-  font-size: calc(15 * var(--u));
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.hx-wordmark {
-  font-weight: 600;
-  font-size: calc(17 * var(--u));
-  letter-spacing: 0.28em;
-  color: var(--hx-text);
-  text-decoration: none;
-}
-.hx-pills {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  height: 100%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: calc(6 * var(--u));
-  padding: calc(5 * var(--u));
-  border-radius: 9999px;
-  background: var(--hx-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: inset 0 0 0 1px var(--hx-glass-ring);
-}
-.hx-pill {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(38 * var(--u));
-  padding: 0 calc(22 * var(--u));
-  border-radius: 9999px;
-  color: var(--hx-link);
-  font-weight: 400;
-  white-space: nowrap;
-  text-decoration: none;
-  transition: background-color 0.25s;
-}
-.hx-pill:hover {
-  background: var(--hx-glass);
-}
-.hx-pill[data-active="true"] {
-  background: var(--hx-text);
-  color: var(--hx-ink);
-  font-weight: 600;
-}
-.hx-right {
-  display: flex;
-  align-items: center;
-  gap: calc(30 * var(--u));
-}
-.hx-lang {
-  display: flex;
-  align-items: center;
-  gap: calc(9 * var(--u));
-  color: oklch(1 0 0 / 90%);
-}
-.hx-globe {
-  width: calc(20 * var(--u));
-  height: calc(20 * var(--u));
-}
-.hx-enquire {
-  display: inline-flex;
-  align-items: center;
-  height: calc(44 * var(--u));
-  padding: 0 calc(27 * var(--u));
-  border-radius: 9999px;
-  background: var(--hx-button);
-  color: var(--hx-ink);
-  font-weight: 600;
-  text-decoration: none;
-  transition:
-    transform 0.25s,
-    background-color 0.25s;
-}
-.hx-enquire:hover {
-  transform: translateY(-1px);
-  background: var(--hx-button-hover);
-}
-
 @media (max-width: 819.98px) {
   .hx-hero {
     --u: 1px;
-  }
-  .hx-nav {
-    top: 16px;
-    height: auto;
-    padding: 0 18px;
-    flex-wrap: wrap;
-    row-gap: 12px;
-  }
-  .hx-wordmark {
-    font-size: 14px;
-    letter-spacing: 0.22em;
-  }
-  .hx-lang {
-    font-size: 13px;
-  }
-  .hx-globe {
-    width: 16px;
-    height: 16px;
-  }
-  .hx-enquire {
-    height: 36px;
-    padding: 0 16px;
-    font-size: 13px;
-  }
-  .hx-pills {
-    position: static;
-    order: 3;
-    width: 100%;
-    transform: none;
-    height: 40px;
-    padding: 4px;
-  }
-  .hx-pill {
-    flex: 1;
-    height: 32px;
-    font-size: 12px;
-    padding: 0 10px;
-  }
-}
-@media (max-width: 360px) {
-  .hx-pill {
-    font-size: 11px;
-    padding: 0 6px;
-  }
-}
-@media (max-height: 500px) and (orientation: landscape) {
-  .hx-nav {
-    top: 12px;
-    height: 34px;
-    padding: 0 24px;
-    font-size: 12px;
-    flex-wrap: nowrap;
-  }
-  .hx-wordmark {
-    font-size: 13px;
-  }
-  .hx-lang,
-  .hx-enquire,
-  .hx-pill {
-    font-size: 12px;
-  }
-  .hx-enquire {
-    height: 32px;
-  }
-  .hx-pills {
-    position: absolute;
-    width: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 34px;
-    padding: 3px;
-  }
-  .hx-pill {
-    flex: none;
-    height: 28px;
   }
 }

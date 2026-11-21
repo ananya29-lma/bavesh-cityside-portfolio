@@ -62,25 +62,6 @@ function loadImage(src: string) {
   });
 }
 
-function GlobeIcon() {
-  return (
-    <svg className="hx-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3 12h18" />
-      <path d="M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9S9.6 5.5 12 3z" />
-    </svg>
-  );
-}
-
-const NAV_LINKS = [
-  { label: "Home", href: "/", active: true },
-  { label: "Services", href: "#services", active: false },
-  { label: "About", href: "#about", active: false },
-  { label: "Works", href: "#work", active: false },
-  { label: "Experience", href: "#experience", active: false },
-  { label: "Contact", href: "#contact", active: false },
-];
-
 export function SummitHero() {
   const heroRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -97,7 +78,6 @@ export function SummitHero() {
   const tiltRef = useRef<HTMLVideoElement>(null);
   const doorLRef = useRef<HTMLDivElement>(null);
   const doorRRef = useRef<HTMLDivElement>(null);
-  const navRef = useRef<HTMLElement>(null);
   const rainARef = useRef<HTMLVideoElement>(null);
   const rainBRef = useRef<HTMLVideoElement>(null);
 
@@ -122,8 +102,7 @@ export function SummitHero() {
       const word = wordRef.current;
       const inner = wordInnerRef.current;
       const probe = probeRef.current;
-      const nav = navRef.current;
-      if (!stage || !headline || !word || !inner || !probe || !nav) return;
+      if (!stage || !headline || !word || !inner || !probe) return;
 
       const hw = hero.clientWidth;
       const hh = hero.clientHeight;
@@ -140,8 +119,7 @@ export function SummitHero() {
 
       word.style.fontSize = "100px";
       const perEm = inner.offsetWidth / 100 || 3.4;
-      const navBottom = nav.offsetTop + nav.offsetHeight;
-      const gap = stageTop + baseline - (navBottom + 0.035 * hh);
+      const gap = stageTop + baseline - 0.07 * hh;
       const size = Math.max(
         12,
         Math.min((0.625 * sw) / perEm, (0.92 * hw) / perEm, gap / 0.88),
@@ -220,7 +198,6 @@ export function SummitHero() {
         doorR: doorRRef.current,
         tilt: tiltRef.current,
         opening: openingRef.current,
-        nav: navRef.current,
         shade: shadeRef.current,
         back: backRef.current,
         mid: midRef.current,
@@ -240,10 +217,6 @@ export function SummitHero() {
         track(e.doorR, [[0.02, tx("0"), "cubic-bezier(.4,.6,.9,1)"], [1.24, tx("101%")]]),
         track(e.tilt, [[1.19, { opacity: 0 }, "ease-in-out"], [1.47, { opacity: 1 }]]),
         track(e.opening, [[2.45, { opacity: 1 }, "cubic-bezier(.45,0,.55,1)"], [2.95, { opacity: 0 }]]),
-        track(e.nav, [
-          [2.45, { opacity: 0, transform: "translateY(-6px)" }, "ease-out"],
-          [2.75, { opacity: 1, transform: "translateY(0)" }],
-        ]),
         ...letterRefs.current.flatMap((el, i) => {
           if (!el) return [];
           const t0 = 2.45 + i * 0.054;
@@ -421,32 +394,6 @@ export function SummitHero() {
         />
       </div>
 
-      <header ref={navRef} className="hx-nav">
-        <a href="/" className="hx-wordmark">
-          {"\n"}
-        </a>
-        <nav className="hx-pills" aria-label="Main">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="hx-pill"
-              data-active={link.active ? "true" : undefined}
-              aria-current={link.active ? "page" : undefined}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-        <div className="hx-right">
-          <span className="hx-lang">
-            <GlobeIcon />
-          </span>
-          <a href="#contact" className="hx-enquire">
-            CONNECT
-          </a>
-        </div>
-      </header>
     </section>
   );
 }
