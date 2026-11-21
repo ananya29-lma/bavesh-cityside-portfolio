@@ -135,6 +135,8 @@ const awards = [
 export function Awards() {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const xRef = useRef(0);
   const [x, setX] = useState(0);
 
   useEffect(() => {
@@ -148,7 +150,21 @@ export function Awards() {
       const total = wrap.offsetHeight - window.innerHeight;
       const progress = total > 0 ? -wrap.getBoundingClientRect().top / total : 0;
       const clamped = Math.min(1, Math.max(0, progress));
-      setX(-clamped * distance);
+      const newX = -clamped * distance;
+      setX(newX);
+
+      // 3D coverflow: rotate each card based on its distance from viewport center
+      const untransformedLeft = track.getBoundingClientRect().left - xRef.current;
+      xRef.current = newX;
+      const vw = window.innerWidth;
+      cardRefs.current.forEach((card) => {
+        if (!card) return;
+        const center = untransformedLeft + card.offsetLeft + newX + card.offsetWidth / 2;
+        const offset = Math.max(-1, Math.min(1, (center - vw / 2) / (vw / 2)));
+        const depth = Math.abs(offset);
+        card.style.transform = `rotateY(${offset * 38}deg) translateZ(${-depth * 140}px) scale(${1 - depth * 0.12})`;
+        card.style.zIndex = String(100 - Math.round(depth * 50));
+      });
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -174,27 +190,32 @@ export function Awards() {
             <div
               ref={trackRef}
               className="flex gap-6 will-change-transform"
-              style={{ transform: `translate3d(${x}px,0,0)` }}
+              style={{ transform: `translate3d(${x}px,0,0)`, perspective: "1400px" }}
             >
-              {awards.map((a) => (
-                <article
+              {awards.map((a, i) => (
+                <div
                   key={a.title}
-                  className="group w-[78vw] shrink-0 overflow-hidden rounded-3xl border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:border-accent/60 sm:w-[52vw] md:w-[22rem]"
+                  ref={(el) => {
+                    cardRefs.current[i] = el;
+                  }}
+                  className="w-[78vw] shrink-0 will-change-transform sm:w-[52vw] md:w-[22rem]"
                 >
-                  <div className="relative h-44 overflow-hidden">
-                    <img
-                      src={a.image}
-                      alt={a.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold leading-snug">{a.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
-                    <p className="mt-6 text-xs uppercase tracking-[0.18em] text-accent">{a.tags}</p>
-                  </div>
-                </article>
+                  <article className="group overflow-hidden rounded-3xl border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:border-accent/60">
+                    <div className="relative h-44 overflow-hidden">
+                      <img
+                        src={a.image}
+                        alt={a.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold leading-snug">{a.title}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
+                      <p className="mt-6 text-xs uppercase tracking-[0.18em] text-accent">{a.tags}</p>
+                    </div>
+                  </article>
+                </div>
               ))}
             </div>
           </div>
