@@ -146,17 +146,25 @@ export function Awards() {
       const wrap = wrapRef.current;
       const track = trackRef.current;
       if (!wrap || !track) return;
-      const distance = Math.max(0, track.scrollWidth - window.innerWidth + 48);
       const total = wrap.offsetHeight - window.innerHeight;
       const progress = total > 0 ? -wrap.getBoundingClientRect().top / total : 0;
       const clamped = Math.min(1, Math.max(0, progress));
-      const newX = -clamped * distance;
+      const vw = document.documentElement.clientWidth;
+      const cards = cardRefs.current.filter((c): c is HTMLDivElement => !!c);
+      const first = cards[0];
+      const last = cards[cards.length - 1];
+      if (!first || !last) return;
+      // Untransformed left edge of the track (its parent has no transform)
+      const baseLeft = track.parentElement?.getBoundingClientRect().left ?? 0;
+      // Start with the first card centered, end with the last card centered
+      const startX = vw / 2 - (baseLeft + first.offsetLeft + first.offsetWidth / 2);
+      const endX = vw / 2 - (baseLeft + last.offsetLeft + last.offsetWidth / 2);
+      const newX = startX + (endX - startX) * clamped;
       setX(newX);
+      xRef.current = newX;
 
       // 3D coverflow: rotate each card based on its distance from viewport center
-      const untransformedLeft = track.getBoundingClientRect().left - xRef.current;
-      xRef.current = newX;
-      const vw = window.innerWidth;
+      const untransformedLeft = baseLeft;
       cardRefs.current.forEach((card) => {
         if (!card) return;
         const center = untransformedLeft + card.offsetLeft + newX + card.offsetWidth / 2;
@@ -186,10 +194,10 @@ export function Awards() {
           <div className="mx-auto w-full max-w-6xl px-6">
             <SectionTitle light="OUR " bold="SERVICES." eyebrow="" />
           </div>
-          <div className="w-full pl-6 md:pl-[max(1.5rem,calc((100vw-72rem)/2))]">
+          <div className="w-full">
             <div
               ref={trackRef}
-              className="flex gap-6 will-change-transform"
+              className="flex items-stretch gap-6 will-change-transform"
               style={{ transform: `translate3d(${x}px,0,0)`, perspective: "1400px" }}
             >
               {awards.map((a, i) => (
@@ -198,10 +206,10 @@ export function Awards() {
                   ref={(el) => {
                     cardRefs.current[i] = el;
                   }}
-                  className="w-[78vw] shrink-0 will-change-transform sm:w-[52vw] md:w-[22rem]"
+                  className="flex w-[78vw] shrink-0 will-change-transform sm:w-[52vw] md:w-[22rem]"
                 >
-                  <article className="group overflow-hidden rounded-3xl border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:border-accent/60">
-                    <div className="relative h-44 overflow-hidden">
+                  <article className="group flex h-full w-full flex-col overflow-hidden rounded-3xl border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:border-accent/60">
+                    <div className="relative h-44 shrink-0 overflow-hidden">
                       <img
                         src={a.image}
                         alt={a.title}
@@ -209,10 +217,10 @@ export function Awards() {
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
-                    <div className="p-6">
+                    <div className="flex flex-1 flex-col p-6">
                       <h3 className="text-xl font-semibold leading-snug">{a.title}</h3>
                       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
-                      <p className="mt-6 text-xs uppercase tracking-[0.18em] text-accent">{a.tags}</p>
+                      <p className="mt-auto pt-6 text-xs uppercase tracking-[0.18em] text-accent">{a.tags}</p>
                     </div>
                   </article>
                 </div>
