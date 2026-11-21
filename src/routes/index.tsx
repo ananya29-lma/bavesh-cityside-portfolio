@@ -47,7 +47,7 @@ function Index() {
       <Experience />
       <Contact />
       <footer className="border-t border-border px-6 py-8 text-center text-xs text-muted-foreground">
-        © 2026 Akshay Kumar. All rights reserved.
+        © 2026 Bavesh. All rights reserved.
       </footer>
     </main>
   );
