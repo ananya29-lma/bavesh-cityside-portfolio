@@ -314,22 +314,6 @@
   height: 0;
   vertical-align: baseline;
 }
-.hx-kicker {
-  position: absolute;
-  left: -0.1em;
-  right: 0.1em;
-  bottom: 100%;
-  margin: 0;
-  padding-bottom: 0.28em;
-  text-align: center;
-  white-space: nowrap;
-  font-size: 0.082em;
-  font-weight: 400;
-  letter-spacing: 0.34em;
-  line-height: 1;
-  transition: opacity 0.9s ease 0.25s;
-}
-
 .hx-opening {
   position: absolute;
   inset: 0;
@@ -358,8 +342,7 @@
 }
 
 /* Start states while the intro clock has not started. */
-.hx-hero[data-intro="true"] .hx-letter,
-.hx-hero[data-intro="true"] .hx-kicker {
+.hx-hero[data-intro="true"] .hx-letter {
   opacity: 0;
 }
 .hx-hero[data-intro="true"] .hx-front {
@@ -371,9 +354,6 @@
 .hx-hero[data-done="true"] .hx-opening,
 .hx-hero[data-done="true"] .hx-doors {
   display: none;
-}
-.hx-hero[data-done="true"] .hx-kicker {
-  opacity: 1;
 }
 
 @media (max-width: 819.98px) {

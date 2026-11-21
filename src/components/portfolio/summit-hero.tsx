@@ -339,10 +339,7 @@ export function SummitHero() {
         </div>
 
         <div ref={headlineRef} className="hx-headline">
-          <h1 ref={wordRef} className="hx-word" aria-label="CEO & Managing Director. BAVESH">
-            <span className="hx-kicker" aria-hidden="true">
-              CEO &amp; MANAGING DIRECTOR
-            </span>
+          <h1 ref={wordRef} className="hx-word" aria-label="BAVESH">
             <span ref={wordInnerRef} className="hx-word-inner" aria-hidden="true">
               {LETTERS.map((l, i) => (
                 <span
