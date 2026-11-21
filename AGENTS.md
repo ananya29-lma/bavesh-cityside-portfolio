@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- The single-page portfolio is composed in `src/routes/index.tsx` from section components in `src/components/portfolio/`; add new sections there so the page stays one scroll experience.
+- The opening scene (`summit-hero.tsx`) links its images and videos from the brief's remote URLs, never re-hosted, and drives every intro animation from one paused Web Animations clock so all layers stay in sync.

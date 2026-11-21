@@ -1,0 +1,18 @@
+{
+  "source": "code-archive (project-migration-hub-main.zip, TanStack Start single-page portfolio)",
+  "capabilities": [
+    {"capability": "code", "source": "src/routes/*, src/components/portfolio/*, src/components/ui/*", "outcome": "migrate", "status": "verified", "next_action": "none"},
+    {"capability": "styles/design system", "source": "src/styles.css, Google Fonts in root head", "outcome": "migrate", "status": "verified", "next_action": "none"},
+    {"capability": "assets", "source": "src/assets/*.jpg, public/favicon.ico, remote CDN images/videos", "outcome": "migrate", "status": "verified", "next_action": "none"},
+    {"capability": "metadata", "source": "root and index head()", "outcome": "migrate", "status": "verified", "next_action": "none"},
+    {"capability": "schema", "source": "none detected", "outcome": "not-applicable", "status": "verified", "next_action": "none"},
+    {"capability": "records", "source": "none detected", "outcome": "not-applicable", "status": "verified", "next_action": "none"},
+    {"capability": "auth identities / authorization", "source": "none detected", "outcome": "not-applicable", "status": "verified", "next_action": "none"},
+    {"capability": "uploaded file storage", "source": "none detected", "outcome": "not-applicable", "status": "verified", "next_action": "none"},
+    {"capability": "external providers", "source": "none; contact uses mailto link", "outcome": "not-applicable", "status": "verified", "next_action": "none"},
+    {"capability": "public endpoints / callbacks / webhooks / schedules", "source": "none detected", "outcome": "not-applicable", "status": "verified", "next_action": "none"},
+    {"capability": "secrets", "source": "no environment variables referenced", "outcome": "not-applicable", "status": "verified", "next_action": "none"},
+    {"capability": "cutover", "source": "-", "outcome": "user-decision", "status": "pending", "next_action": "User publishes and optionally connects their domain"},
+    {"capability": "verification", "source": "-", "outcome": "verify", "status": "verified", "next_action": "none"}
+  ]
+}
