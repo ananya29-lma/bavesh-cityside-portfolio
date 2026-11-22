@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Marquee } from "@/components/portfolio/marquee";
+import { Experience } from "@/components/portfolio/experience-dial";
 import { HERO_FONT_URL, SummitHero } from "@/components/portfolio/summit-hero";
 import {
   About,
   Awards,
   Contact,
-  Experience,
   Work,
 } from "@/components/portfolio/sections";
 
