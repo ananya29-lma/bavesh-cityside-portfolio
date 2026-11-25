@@ -50,46 +50,20 @@ const projects = [
   },
 ];
 
-const CLOCKWISE = [0, 1, 3, 2];
-
 export function Work() {
-  const wrapRef = useRef<HTMLDivElement | null>(null);
-  const [active, setActive] = useState(0);
-  useEffect(() => {
-    const onScroll = () => {
-      const w = wrapRef.current;
-      if (!w) return;
-      const total = w.offsetHeight - window.innerHeight;
-      const p = total > 0 ? Math.min(0.999, Math.max(0, -w.getBoundingClientRect().top / total)) : 0;
-      setActive(CLOCKWISE[Math.floor(p * CLOCKWISE.length)] ?? 0);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
   return (
-    <section id="work" className="relative">
-      <div ref={wrapRef} className="relative h-[320vh]">
-        <div className="sticky top-0 flex min-h-screen items-center">
-          <div className="mx-auto w-full max-w-6xl px-6 py-16">
-            <SectionTitle light="WORK " bold="EXPERIENCE" eyebrow="Things I shipped" />
-            <div className="grid gap-6 md:grid-cols-2">
-              {projects.map((p, i) => (
-                <GlassCard key={p.name} p={p} active={i === active} />
-              ))}
-            </div>
-          </div>
-        </div>
+    <section id="work" className="mx-auto max-w-6xl px-6 py-28">
+      <SectionTitle light="WORK " bold="EXPERIENCE" eyebrow="Things I shipped" />
+      <div className="grid gap-6 md:grid-cols-2">
+        {projects.map((p) => (
+          <GlassCard key={p.name} p={p} />
+        ))}
       </div>
     </section>
   );
 }
 
-function GlassCard({ p, active }: { p: (typeof projects)[number]; active: boolean }) {
+function GlassCard({ p }: { p: (typeof projects)[number] }) {
   const ref = useRef<HTMLElement | null>(null);
   const target = useRef({ rx: 0, ry: 0, mx: 50, my: 50 });
   const cur = useRef({ rx: 0, ry: 0, mx: 50, my: 50 });
@@ -134,22 +108,14 @@ function GlassCard({ p, active }: { p: (typeof projects)[number]; active: boolea
       ref={ref}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
-      className={`group relative rounded-2xl border bg-card/40 p-7 backdrop-blur-md transition-[border-color,box-shadow,opacity,filter] duration-700 ${
-        active ? "border-highlight opacity-100" : "border-border opacity-55 saturate-50"
-      }`}
-      style={{
-        transformStyle: "preserve-3d",
-        willChange: "transform",
-        boxShadow: active
-          ? "0 0 0 1px color-mix(in oklab, var(--highlight) 60%, transparent), 0 0 60px -6px color-mix(in oklab, var(--highlight) 70%, transparent), inset 0 0 40px -10px color-mix(in oklab, var(--highlight) 45%, transparent)"
-          : "var(--shadow-card)",
-      }}
+      className="group relative rounded-2xl border border-border bg-card/40 p-7 shadow-card backdrop-blur-md transition-colors duration-500 hover:border-accent/50"
+      style={{ transformStyle: "preserve-3d", willChange: "transform" }}
     >
       <div
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
           background:
-            "radial-gradient(420px circle at var(--mx,50%) var(--my,50%), color-mix(in oklab, var(--highlight) 28%, transparent), transparent 60%)",
+            "radial-gradient(420px circle at var(--mx,50%) var(--my,50%), color-mix(in oklab, var(--accent) 22%, transparent), transparent 60%)",
         }}
       />
       <div className="relative flex items-start justify-between gap-6" style={{ transformStyle: "preserve-3d" }}>
@@ -167,13 +133,8 @@ function GlassCard({ p, active }: { p: (typeof projects)[number]; active: boolea
             {p.line}
           </p>
         </div>
-        <span
-          style={{ transform: "translateZ(45px)" }}
-          className={`grid size-12 shrink-0 place-items-center rounded-xl transition-colors duration-700 ${
-            active ? "bg-highlight text-highlight-foreground shadow-[0_0_30px_-4px_var(--highlight)]" : "bg-secondary text-muted-foreground"
-          }`}
-        >
-          <ArrowUpRight className="size-6 transition-transform duration-300 group-hover:rotate-45" />
+        <span style={{ transform: "translateZ(45px)" }} className="shrink-0">
+          <ArrowUpRight className="size-6 text-muted-foreground transition-transform duration-300 group-hover:rotate-45 group-hover:text-accent" />
         </span>
       </div>
       <div
