@@ -40,10 +40,10 @@ function Index() {
   return (
     <main className="bg-background">
       <SummitHero />
+      <About />
       <Marquee />
       <Work />
       <Awards />
-      <About />
       <Experience />
       <Contact />
       <footer className="border-t border-border px-6 py-8 text-center text-xs text-muted-foreground">
