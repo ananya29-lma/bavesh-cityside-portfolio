@@ -200,7 +200,7 @@ export function Experience() {
   return (
     <section id="experience" className="border-y border-border bg-background">
       <div className="mx-auto max-w-6xl px-6 pt-28">
-        <SectionTitle light="Work" bold="Experience" eyebrow="Scroll through the years" />
+        <SectionTitle light="BUSINESS" bold="JOURNEY" eyebrow="Scroll through the years" />
       </div>
       <div ref={wrapRef} className="relative" style={{ height: `${100 + (roles.length - 1) * 60}vh` }}>
         <div className="sticky top-0 h-screen overflow-hidden">
