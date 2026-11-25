@@ -56,32 +56,95 @@ export function Work() {
       <SectionTitle light="WORK " bold="EXPERIENCE" eyebrow="Things I shipped" />
       <div className="grid gap-6 md:grid-cols-2">
         {projects.map((p) => (
-          <article
-            key={p.name}
-            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-7 shadow-card transition-all duration-500 hover:-translate-y-1 hover:border-accent/50"
-          >
-            <div
-              className="pointer-events-none absolute -top-24 -right-16 h-56 w-56 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-60"
-              style={{ background: "var(--gradient-cool)" }}
-            />
-            <div className="relative flex items-start justify-between gap-6">
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
-                  {p.tag}
-                </p>
-                <h3 className="text-display mt-4 text-3xl md:text-4xl">{p.name}</h3>
-                <p className="mt-3 max-w-sm text-sm text-muted-foreground">{p.line}</p>
-              </div>
-              <ArrowUpRight className="size-6 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-accent" />
-            </div>
-            <div className="relative mt-10 flex items-center justify-between border-t border-border pt-5 text-xs text-muted-foreground">
-              <span>{p.year}</span>
-              <span className="tracking-[0.2em] uppercase">View case</span>
-            </div>
-          </article>
+          <GlassCard key={p.name} p={p} />
         ))}
       </div>
     </section>
+  );
+}
+
+function GlassCard({ p }: { p: (typeof projects)[number] }) {
+  const ref = useRef<HTMLElement | null>(null);
+  const target = useRef({ rx: 0, ry: 0, mx: 50, my: 50 });
+  const cur = useRef({ rx: 0, ry: 0, mx: 50, my: 50 });
+  const raf = useRef(0);
+
+  const tick = () => {
+    const el = ref.current;
+    if (!el) return;
+    const c = cur.current;
+    const t = target.current;
+    c.rx += (t.rx - c.rx) * 0.12;
+    c.ry += (t.ry - c.ry) * 0.12;
+    c.mx += (t.mx - c.mx) * 0.18;
+    c.my += (t.my - c.my) * 0.18;
+    el.style.transform = `perspective(1000px) rotateX(${c.rx}deg) rotateY(${c.ry}deg)`;
+    el.style.setProperty("--mx", `${c.mx}%`);
+    el.style.setProperty("--my", `${c.my}%`);
+    const moving =
+      Math.abs(t.rx - c.rx) > 0.01 || Math.abs(t.ry - c.ry) > 0.01 || Math.abs(t.mx - c.mx) > 0.05;
+    raf.current = moving ? requestAnimationFrame(tick) : 0;
+  };
+  const kick = () => {
+    if (!raf.current) raf.current = requestAnimationFrame(tick);
+  };
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
+
+  const onMove = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse" || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    target.current = { rx: (0.5 - py) * 20, ry: (px - 0.5) * 24, mx: px * 100, my: py * 100 };
+    kick();
+  };
+  const onLeave = () => {
+    target.current = { rx: 0, ry: 0, mx: 50, my: 50 };
+    kick();
+  };
+
+  return (
+    <article
+      ref={ref}
+      onPointerMove={onMove}
+      onPointerLeave={onLeave}
+      className="group relative rounded-2xl border border-border bg-card/40 p-7 shadow-card backdrop-blur-md transition-colors duration-500 hover:border-accent/50"
+      style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(420px circle at var(--mx,50%) var(--my,50%), color-mix(in oklab, var(--accent) 22%, transparent), transparent 60%)",
+        }}
+      />
+      <div className="relative flex items-start justify-between gap-6" style={{ transformStyle: "preserve-3d" }}>
+        <div style={{ transformStyle: "preserve-3d" }}>
+          <p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground" style={{ transform: "translateZ(15px)" }}>
+            {p.tag}
+          </p>
+          <h3
+            className="text-display mt-4 text-3xl md:text-4xl transition-[text-shadow] duration-500 group-hover:[text-shadow:0_14px_24px_oklch(0_0_0/55%)]"
+            style={{ transform: "translateZ(35px)" }}
+          >
+            {p.name}
+          </h3>
+          <p className="mt-3 max-w-sm text-sm text-muted-foreground" style={{ transform: "translateZ(20px)" }}>
+            {p.line}
+          </p>
+        </div>
+        <span style={{ transform: "translateZ(45px)" }} className="shrink-0">
+          <ArrowUpRight className="size-6 text-muted-foreground transition-transform duration-300 group-hover:rotate-45 group-hover:text-accent" />
+        </span>
+      </div>
+      <div
+        className="relative mt-10 flex items-center justify-between border-t border-border pt-5 text-xs text-muted-foreground"
+        style={{ transform: "translateZ(15px)" }}
+      >
+        <span>{p.year}</span>
+        <span className="tracking-[0.2em] uppercase">View case</span>
+      </div>
+    </article>
   );
 }
 
