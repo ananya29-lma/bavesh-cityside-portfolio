@@ -192,7 +192,7 @@ export function Awards() {
       <div ref={wrapRef} className="relative h-[240vh]">
         <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
           <div className="mx-auto w-full max-w-6xl px-6">
-            <SectionTitle light="OUR " bold="SERVICES." eyebrow="" />
+            <SectionTitle light="MY " bold="VENTURES." eyebrow="" />
           </div>
           <div className="w-full">
             <div
