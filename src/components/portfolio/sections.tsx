@@ -53,7 +53,7 @@ const projects = [
 export function Work() {
   return (
     <section id="work" className="mx-auto max-w-6xl px-6 py-28">
-      <SectionTitle light="STRATEGIC " bold="WORKS" eyebrow="Things I shipped" />
+      <SectionTitle light="WORK " bold="EXPERIENCE" eyebrow="Things I shipped" />
       <div className="grid gap-6 md:grid-cols-2">
         {projects.map((p) => (
           <article
