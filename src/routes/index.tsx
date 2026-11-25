@@ -41,9 +41,9 @@ function Index() {
     <main className="bg-background">
       <SummitHero />
       <About />
+      <Awards />
       <Marquee />
       <Work />
-      <Awards />
       <Experience />
       <Contact />
       <footer className="border-t border-border px-6 py-8 text-center text-xs text-muted-foreground">
